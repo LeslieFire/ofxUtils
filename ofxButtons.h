@@ -84,7 +84,8 @@ public:
 	void draw(int btnId);
 
 	ofRectangle getButtonArea(int btnId);
-	void changeButtonState(int btnId);
+	ofPoint		getButtonPos(int btnId);
+	void		changeButtonState(int btnId);
 
 	virtual void SetButton(const int &name, ofImage *b, int id = 0);
 	map<int,button> &buttons(){return _buttons;}
@@ -100,5 +101,4 @@ private:
 };
 
 }
-
 namespace cfeel = cn_seefeel;

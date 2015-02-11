@@ -64,16 +64,19 @@ void ofxButtons::draw(){
 }
 
 void ofxButtons::draw(int btnId){
-	//ofEnableAlphaBlending();
+	ofEnableAlphaBlending();
 	map<int, button>::iterator it = _buttons.find(btnId);
-	ofSetRectMode(OF_RECTMODE_CENTER);
+	
 	if (it != _buttons.end()){
 		it->second._img[it->second._id]->draw(it->second._pos.x, it->second._pos.y);
 	}
-	ofSetRectMode(OF_RECTMODE_CORNER);
-	//ofDisableAlphaBlending();
-}
 
+	ofDisableAlphaBlending();
+}
+ofPoint ofxButtons::getButtonPos(int btnId){
+	map<int, button>::iterator it = _buttons.find(btnId);
+	return it->second._pos;
+}
 ofRectangle ofxButtons::getButtonArea(int btnId){
 	return ofRectangle(_buttons[btnId]._pos.x, 
 					   _buttons[btnId]._pos.y,
