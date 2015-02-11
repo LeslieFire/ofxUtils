@@ -29,11 +29,14 @@ namespace cn_seefeel
 
 			void start(ofImage *image, const float time, bool fadein, const int alphaMin = 0, const int alphaMax = 255);
 			void reset(const float time, bool fadein, const int alphaMin = 0, const int alphaMax = 255);
+			void reset(ofImage *image, const float time, bool fadein, const int alphaMin = 0, const int alphaMax = 255);
 			void stop();
 			bool IsTimeOut();
 			bool IsStart();
 			int  getCount();
+			ofImage	* getImage();
 			void draw();
+			void draw(int x, int y, int width, int height);
 
 	protected:
 			//--------------------------

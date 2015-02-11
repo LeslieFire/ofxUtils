@@ -7,6 +7,7 @@ namespace cn_seefeel
 		count = -1;
 		_bTimeOut = true;
 		_bStarted = false;
+		_image = NULL;
 	}
 	ofxFadeAnimation::~ofxFadeAnimation(){
 		stop();
@@ -31,7 +32,6 @@ namespace cn_seefeel
 				<< "alpha = " << _alpha
 				<< "alpha stride = " << _alphaStride
 				<<endl;*/
-
 			startThread(true, false);   // blocking, verbose
 		}else{
 			ofLogNotice("ofxTimer") << "counter must be greater or equal than zero." ;
@@ -39,10 +39,12 @@ namespace cn_seefeel
 		}
 	
 	}
-	void ofxFadeAnimation::reset(const float time, bool fadein, const int alphaMin, const int alphaMax){
-		if (time > 0){
+	void ofxFadeAnimation::reset(ofImage *image, const float time, bool fadein, const int alphaMin, const int alphaMax){
+		if (time > 0 && image != NULL){
 			if (lock()){
 				count = time;
+				_image = image;
+
 				_alphaMax = alphaMax;
 				_alphaMin = alphaMin;
 
@@ -57,6 +59,9 @@ namespace cn_seefeel
 		}else{
 			ofLogNotice("ofxTimer") << "counter must be greater than zero." ;
 		}
+	}
+	void ofxFadeAnimation::reset(const float time, bool fadein, const int alphaMin, const int alphaMax){
+		reset(_image, time, fadein, alphaMin, alphaMax);
 	}
 
 	void ofxFadeAnimation::stop(){
@@ -114,7 +119,10 @@ namespace cn_seefeel
 		return c;
 	}
 
-	void ofxFadeAnimation::draw(){
+	ofImage	* ofxFadeAnimation::getImage(){
+		return _image;
+	}
+	void ofxFadeAnimation::draw(int x, int y, int width, int height){
 		int alpha = 0;
 
 		if (lock()){
@@ -123,8 +131,11 @@ namespace cn_seefeel
 		}
 		ofEnableAlphaBlending();
 		ofSetColor(255, 255, 255, alpha);
-		_image->draw(0, 0, ofGetWidth(), ofGetHeight());
+		_image->draw(x, y, width, height);
 		ofSetColor(255, 255, 255, 255);
 		ofDisableAlphaBlending();
+	}
+	void ofxFadeAnimation::draw(){
+		draw(0, 0, ofGetWidth(), ofGetHeight());
 	}
 }
